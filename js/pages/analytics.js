@@ -35,6 +35,7 @@ export function buildReport(kind, anchor) {
   const apps = appsIn(dates).length, contacts = s.career.contacts.filter(c => dates.includes(c.date)).length;
   const learn = sessionMin(dates, 'learn'), focus = sessionMin(dates, 'focus');
   const cis = dates.filter(d => s.checkins[d]?.morning || s.checkins[d]?.evening).length, jr = dates.filter(d => s.journal[d] && Object.values(s.journal[d]).some(v => typeof v === 'string' && v.trim())).length;
+  const nl = s.nutrition?.log || {}, nd = dates.filter(d => nl[d]?.access), tight = nd.filter(d => nl[d].access !== 'enough').length;
   const title = kind === 'week' ? `Weekly report · ${fmtDate(start, { day: 'numeric', month: 'short' })} – ${fmtDate(fullEnd, { day: 'numeric', month: 'short', year: 'numeric' })}` : `Monthly report · ${fmtMonth(start)}`;
   const rows = [
     ['Completion rate', r.comp === null ? '–' : r.comp + '%', delta(r.comp, p.comp)],
@@ -44,6 +45,7 @@ export function buildReport(kind, anchor) {
     ['Workout days', `${trained} of ${dates.length}`, ''],
     ['Applications sent', apps, ''], ['Companies contacted', contacts, ''],
     ['Learning hours', hrs(learn), ''], ['Focus hours', hrs(focus), ''],
+    ...(nd.length ? [['Days you ate enough', `${nd.length - tight} of ${nd.length} logged`, '']] : []),
     ['Check-in days', `${cis} of ${dates.length}`, ''], ['Journal days', jr, ''],
   ];
   const hi = [];
@@ -59,6 +61,7 @@ export function buildReport(kind, anchor) {
   const perWeek = kind === 'week' ? 1 : 4.3;
   if (dates.length >= 3 && trained < 3 * perWeek * Math.min(1, dates.length / len)) sg.push('Aim for at least three workout days a week. Even a 10-minute session keeps the streak alive.');
   if (apps < (s.settings.weeklyApps || 5) * perWeek * Math.min(1, dates.length / len)) sg.push(`Your target is ${s.settings.weeklyApps || 5} applications a week. Block a fixed daily hour to close the gap.`);
+  if (tight >= 2) sg.push(`Food was tight on ${tight} logged days. Cook beans in batches and keep eggs or groundnuts as a backup so no day passes without a proper meal.`);
   if (!jr && dates.length) sg.push('Write three lines in your journal each evening: one win, one lesson, one thing to be grateful for.');
   if (r.comp !== null && r.comp < 50) sg.push('Your plan may be too heavy. Cut it to the five most important activities, win those for a week, then add back.');
   if (r.comp !== null && r.comp >= 80) sg.push('Strong consistency. Raise the bar: add one critical activity or increase a workout target.');

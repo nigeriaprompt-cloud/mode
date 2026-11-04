@@ -78,6 +78,25 @@ export function defaults() {
     habits, hlog: {},
     career: { apps: [], contacts: [], prep: starterPrep() },
     sessions: [], goals: [], journal: {}, inbox: [], fired: {}, timer: null,
+    nutrition: starterNutrition(),
+  };
+}
+
+function starterNutrition() {
+  const d = (breakfast, lunch, dinner, snack) => ({ breakfast, lunch, dinner, snack });
+  return {
+    setup: false, budget: { min: 1000, max: 1500 }, height: '', snackPm: 'Groundnuts, fruit or boiled potatoes',
+    menu: { // 0 = Sunday
+      1: d('Pap and groundnuts', 'Beans porridge', 'Eba and vegetable soup', 'Banana'),
+      2: d('Bread and boiled egg', 'Rice and beans', 'Beans with ripe plantain if affordable', 'Groundnuts'),
+      3: d('Boiled yam and egg sauce', 'Beans porridge', 'Eba and okra soup', 'Banana'),
+      4: d('Pap and groundnuts', 'Rice and vegetable stew with fish', 'Sweet potatoes and beans', 'Seasonal fruit'),
+      5: d('Moi moi and pap', 'Rice and beans', 'Eba and vegetable soup', 'Groundnuts'),
+      6: d('Bread and egg', 'Spaghetti with tomato and vegetable sauce', 'Beans porridge', 'Banana'),
+      0: d('Boiled yam and groundnuts', 'Rice, beans and fish', 'Yam porridge with vegetables', 'Seasonal fruit'),
+    },
+    shop: ['Beans', 'Rice', 'Garri', 'Yam or sweet potatoes', 'Eggs', 'Groundnuts', 'Ugu or other vegetables', 'Tomatoes', 'Pepper', 'Bananas or seasonal fruit', 'Small fish or sardines', 'Pap or maize flour'].map(name => ({ id: uid(), name, bought: false, cost: '' })),
+    log: {}, // date -> { access: 'enough'|'some'|'little', spend }
   };
 }
 
@@ -101,6 +120,7 @@ function migrate(d) {
   m.settings.remind = { ...base.settings.remind, ...(d.settings?.remind || {}) };
   m.fit = { ...base.fit, ...(d.fit || {}) };
   m.career = { ...base.career, ...(d.career || {}) };
+  m.nutrition = { ...base.nutrition, ...(d.nutrition || {}) };
   return m;
 }
 

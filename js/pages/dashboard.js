@@ -116,6 +116,7 @@ export default function dashboard(root) {
       <div class="grid g4 pillars">
         <div class="card" data-tilt>${pill('fitness', catToday('fitness'))}<h4>${icon('dumbbell', 16)} Workout summary</h4>
           ${exs.length ? exs.map(e => `<div class="ex"><div class="ex-l"><span>${esc(e.name)}</span><b class="mono">${fd.per[e.id]}${e.target ? ' / ' + e.target : ''}</b></div>${bar(e.target ? pct(fd.per[e.id], e.target) : fd.per[e.id] ? 100 : 0, 'var(--c-fitness)')}</div>`).join('') : '<p class="muted small">No exercises yet.</p>'}
+          ${s.nutrition?.setup ? (() => { const ml = items.filter(i => i.key?.startsWith('meal_')); return `<div class="kv"><span>Meals eaten today</span><b class="mono">${ml.filter(i => i.done).length}/${ml.length}</b></div>`; })() : ''}
           <div class="foot-line"><span class="muted small">${wkTrained}/7 days this week</span><span class="muted small">${icon('flame', 13)} ${workoutStreak()} day streak</span></div>
           <a class="btn sm" href="#/fitness">Log workout</a></div>
         <div class="card" data-tilt>${pill('spiritual', catToday('spiritual'))}<h4>${icon('sparkles', 16)} Spiritual progress</h4>${miniList('spiritual')}

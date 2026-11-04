@@ -348,3 +348,12 @@ input[type=checkbox],input[type=radio]{width:auto}
   body.printing .page>*:not(#report){display:none!important}
   .card{box-shadow:none;background:#fff!important;border:1px solid #bbb;color:#000;break-inside:avoid}.muted{color:#444}.print-only{display:block}
 }
+
+/* ---------- Nutrition ---------- */
+.chk.off{opacity:.2;cursor:default;border-style:dashed}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.wday{text-align:left;display:grid;gap:6px;align-content:start;padding:10px;border-radius:14px;border:1px solid var(--line);background:var(--panel-2);cursor:pointer;font-size:12px;color:var(--text)}
+.wday:hover{border-color:var(--accent)}.wday.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.wday b{font:700 12px var(--mono);color:var(--accent)}.wday span{display:grid;grid-template-columns:14px 1fr;gap:4px;line-height:1.3;color:var(--muted)}.wday i{font:700 10px var(--mono);font-style:normal;color:var(--c-fitness)}
+@media(max-width:900px){.week{grid-template-columns:1fr 1fr}}@media(max-width:480px){.week{grid-template-columns:1fr}}
+.check .cost{width:92px;padding:6px 8px;font-size:12.5px}
