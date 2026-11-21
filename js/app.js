@@ -14,7 +14,7 @@ import { hydrate } from './charts.js';
 export const ROUTES = [
   ['dashboard', 'Dashboard', 'layout-dashboard', 'Home'], ['schedule', 'Routine', 'calendar-clock', 'Routine'], ['checkin', 'Check-in', 'sun-moon', 'Check-in'],
   ['fitness', 'Fitness', 'dumbbell', 'Fitness'], ['nutrition', 'Nutrition', 'utensils', 'Food'], ['habits', 'Habits', 'repeat', 'Habits'], ['career', 'Career & Learning', 'briefcase', 'Career'],
-  ['goals', 'Goals & Challenges', 'target', 'Goals'], ['analytics', 'Analytics & Reports', 'bar-chart-3', 'Analytics'], ['journal', 'Journal', 'book-open', 'Journal'], ['settings', 'Settings', 'settings', 'Settings'],
+  ['goals', 'Goals & Challenges', 'target', 'Goals'], ['commit', 'Commitments', 'flag', 'Promises'], ['analytics', 'Analytics & Reports', 'bar-chart-3', 'Analytics'], ['journal', 'Journal', 'book-open', 'Journal'], ['settings', 'Settings', 'settings', 'Settings'],
 ];
 const TABS = ['dashboard', 'schedule', 'checkin', 'habits'];
 let view = $('#view');

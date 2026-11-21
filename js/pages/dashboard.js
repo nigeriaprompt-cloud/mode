@@ -6,6 +6,7 @@ import { esc, today, nowHM, toMin, fmt12, fmtLong, greeting, lastNDays, addDays,
 import { icon, ring, bar, catPill, empty, pageHead } from '../ui.js';
 import { bind } from '../ui.js';
 import { bars } from '../charts.js';
+import { info as cmInfo, TYPES as CM_TYPES, actions as cmActions } from '../commits.js';
 import { rowHtml, actHandlers, reschedule, openBreakdown, openActivityEditor } from '../acts.js';
 
 const ago = n => `${n} day${n === 1 ? '' : 's'}`;
@@ -38,6 +39,7 @@ export default function dashboard(root) {
     const st = streak(), best = bestStreak(), nx = nextUp(), ci = s.checkins[t] || {};
     const last7 = lastNDays(7), wkStart = weekStart(t), wk = range(wkStart, addDays(wkStart, 6));
     const week = last7.map((d, i) => { const c = completion(d), r = score(d); return { label: d === t ? 'Today' : DAYS[parse(d).getDay()], value: r.score, title: `${fmtDate(d)} · score ${r.score ?? '–'} · ${c.done}/${c.total} done` }; });
+    const cmOpen = store.get().commit.map(i => [i, cmInfo(i)]).filter(([, f]) => !f.done);
     const wkScores = week.map(w => w.value).filter(v => v !== null);
     const bestDay = week.reduce((a, b) => ((b.value ?? -1) > (a.value ?? -1) ? b : a), week[0]);
 
@@ -129,6 +131,9 @@ export default function dashboard(root) {
           <a class="btn sm" href="#/career">Open career</a></div>
       </div>
 
+      <div class="card"><div class="card-h"><h3>${icon('flag', 18)} Commitments</h3><a class="btn sm" href="#/commit">Open</a></div>
+        ${cmOpen.length ? `<div class="cm-mini">${cmOpen.slice(0, 6).map(([i, f]) => `<div class="cmm" style="--cc:${CM_TYPES[i.type].hue === 'accent' ? 'var(--accent)' : 'var(--c-' + CM_TYPES[i.type].hue + ')'}">${i.type === 'daily' || i.type === 'todo' ? `<button class="cm-chk sm" data-act="cmTick" data-id="${i.id}" data-k="${i.type}" aria-label="Tick">${icon('check', 14)}</button>` : `<span class="cm-ic sm">${icon(i.icon || 'flag', 14)}</span>`}<span class="cmm-t">${esc(i.title)}</span><b class="mono ${f.overdue || f.over ? 'warn' : ''}">${esc(f.mini)}</b></div>`).join('')}</div>` : '<p class="muted">All commitments complete.</p>'}</div>
+
       <div class="card"><div class="card-h"><h3>${icon('trending-up', 18)} Weekly performance</h3>
         <span class="muted small">Avg <b class="mono">${wkScores.length ? Math.round(avg(wkScores)) : '–'}</b> · Best <b class="mono">${bestDay?.value != null ? bestDay.label + ' ' + bestDay.value : '–'}</b></span></div>
         ${bars(week, { hi: 6, h: 200, fmt: v => v })}<p class="muted small">Daily discipline score for the last 7 days.</p></div>`;
@@ -140,6 +145,7 @@ export default function dashboard(root) {
     resched: el => reschedule(el.dataset.id, t),
     how: () => openBreakdown(t), add: () => openActivityEditor(null, { quick: true }),
     backup: () => { store.backup(); },
+    cmTick: el => { const it = store.get().commit.find(c => c.id === el.dataset.id); if (it.type === 'daily') cmActions.toggleDay(it.id); else { const r = el.getBoundingClientRect(); if (cmActions.toggleDone(it.id)) fx.burst(r.left + 7, r.top + 7); } },
   };
   bind(root, h);
   const iv = setInterval(() => { if (!document.hidden && !document.querySelector('.modal-bg')) draw(); }, 60000);

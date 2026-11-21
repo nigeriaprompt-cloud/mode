@@ -1,5 +1,5 @@
 // The browser IS the backend: one JSON document in localStorage, with change subscriptions.
-import { uid, today, addDays, debounce } from './util.js';
+import { uid, today, addDays, addMonthsKeep, parse, debounce } from './util.js';
 
 const KEY = 'mode.v1';
 let S = null;
@@ -78,8 +78,22 @@ export function defaults() {
     habits, hlog: {},
     career: { apps: [], contacts: [], prep: starterPrep() },
     sessions: [], goals: [], journal: {}, inbox: [], fired: {}, timer: null,
-    nutrition: starterNutrition(),
+    nutrition: starterNutrition(), commit: starterCommit(),
   };
+}
+
+function starterCommit() {
+  const t = today(), y = parse(t).getFullYear();
+  const c = o => ({ id: uid(), note: '', created: t, done: false, doneOn: null, ...o });
+  return [
+    c({ title: 'Walk instead of taking transport', type: 'daily', icon: 'footprints', log: {} }),
+    c({ title: 'No cream or luxury skincare', type: 'abstain', icon: 'ban', start: t, until: addDays(t, 49), label: '7 weeks', slips: [] }),
+    c({ title: 'No new clothes', type: 'abstain', icon: 'shirt', start: t, until: addMonthsKeep(t, 3), label: '3 months', slips: [] }),
+    c({ title: 'Barber only once a month', type: 'limit', icon: 'scissors', cap: 1, log: {} }),
+    c({ title: 'Toast 14 girls for fun', type: 'count', icon: 'party-popper', target: 14, count: 0 }),
+    c({ title: 'Complete and relaunch ThePrompt', type: 'todo', icon: 'rocket', deadline: t <= `${y}-11-30` ? `${y}-11-30` : `${y + 1}-11-30`, note: 'Deadline: end of November' }),
+    c({ title: 'Attend part once a week, always', type: 'weekly', icon: 'calendar-check', perWeek: 1, log: {} }),
+  ];
 }
 
 function starterNutrition() {
@@ -121,6 +135,7 @@ function migrate(d) {
   m.fit = { ...base.fit, ...(d.fit || {}) };
   m.career = { ...base.career, ...(d.career || {}) };
   m.nutrition = { ...base.nutrition, ...(d.nutrition || {}) };
+  m.commit = Array.isArray(d.commit) ? d.commit : base.commit; // existing users get the starter list once
   return m;
 }
 

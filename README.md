@@ -40,6 +40,7 @@ All paths are relative, so it also works under a sub-path such as `/mode/`.
 | **Check-in** | Morning (wake time, sleep, prayer, Bible, workout, 3 goals, priority) and evening review. Saved history. Auto-ticks matching routine items |
 | **Fitness** | Push-ups, sit-ups, squats (all editable, add your own). Sets, targets, streak, volume chart, personal bests, body weight, rest timer |
 | **Nutrition** | Built from a personal diet plan: 7-day Nigerian food timetable (editable), today's menu with tick-off, 5 meal times added to the routine, daily food check (ate enough / skipped / little), food spend vs a ₦1,000–₦1,500 budget, shopping list with costs, weigh-in with BMI and a weight-loss alert, doctor-visit guidance |
+| **Commitments** | Personal rules with a tick: daily walk, "no skincare for 7 weeks" and "no new clothes for 3 months" countdowns (with an *I slipped* reset), a monthly limit (barber once a month), a counter, a weekly promise, and a to-do with a deadline. Mark any complete for a confetti burst; add your own |
 | **Habits** | 12 starter habits plus custom. Daily/weekday or weekly targets, reminders, streaks, monthly calendar and matrix, archive. A missed day never deletes history |
 | **Career & Learning** | Applications pipeline, companies contacted, interview prep and question bank, learning and focus timer with weekly hours |
 | **Goals** | Daily, weekly, monthly goals; 30-day discipline challenge; 90-day transformation (days qualify automatically from your completion) |
@@ -75,6 +76,7 @@ js/store.js      localStorage "database", defaults, migrations
 js/stats.js      plan, completion, discipline score, streaks, habit + workout stats
 js/fx.js         DNA helix, matrix rain, tilt, count-up, particle bursts, boot splash
 js/charts.js     dependency-free SVG charts (re-rendered at real width)
+js/commits.js    commitment types and progress rules
 js/pages/*.js    one module per page, loaded on demand
 assets/          logo, favicon, install icons, bundled fonts
 tools/           icon generator (dev only)

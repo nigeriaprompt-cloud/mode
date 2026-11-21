@@ -1,9 +1,9 @@
 // Mode service worker: precache the whole app shell so it loads instantly and works offline.
-const VERSION = 'mode-v1.1.0';
+const VERSION = 'mode-v1.2.0';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
-  'js/app.js', 'js/util.js', 'js/store.js', 'js/stats.js', 'js/charts.js', 'js/ui.js', 'js/icons.js', 'js/fx.js', 'js/acts.js', 'js/reminders.js', 'js/pwa.js', 'js/focus.js',
-  'js/pages/dashboard.js', 'js/pages/schedule.js', 'js/pages/checkin.js', 'js/pages/fitness.js', 'js/pages/nutrition.js', 'js/pages/habits.js', 'js/pages/career.js', 'js/pages/goals.js', 'js/pages/analytics.js', 'js/pages/journal.js', 'js/pages/settings.js',
+  'js/app.js', 'js/util.js', 'js/store.js', 'js/stats.js', 'js/charts.js', 'js/ui.js', 'js/icons.js', 'js/fx.js', 'js/acts.js', 'js/reminders.js', 'js/pwa.js', 'js/focus.js', 'js/commits.js',
+  'js/pages/dashboard.js', 'js/pages/schedule.js', 'js/pages/checkin.js', 'js/pages/fitness.js', 'js/pages/nutrition.js', 'js/pages/habits.js', 'js/pages/career.js', 'js/pages/goals.js', 'js/pages/commit.js', 'js/pages/analytics.js', 'js/pages/journal.js', 'js/pages/settings.js',
   'assets/logo.svg', 'assets/favicon.svg', 'assets/favicon.ico', 'assets/fonts/inter.woff2', 'assets/fonts/jetbrains-mono.woff2',
   'assets/icons/icon-192.png', 'assets/icons/icon-512.png', 'assets/icons/maskable-512.png', 'assets/icons/apple-touch-icon.png', 'assets/icons/favicon-32.png',
 ];

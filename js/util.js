@@ -18,6 +18,7 @@ export const weekStart = s => addDays(s, -((parse(s).getDay() + 6) % 7)); // Mon
 export const monthStart = s => s.slice(0, 8) + '01';
 export const monthEnd = s => { const d = parse(s); return dstr(new Date(d.getFullYear(), d.getMonth() + 1, 0)); };
 export const addMonths = (s, n) => { const d = parse(monthStart(s)); d.setMonth(d.getMonth() + n); return dstr(d); };
+export const addMonthsKeep = (s, n) => { const d = parse(s); d.setMonth(d.getMonth() + n); return dstr(d); };
 export const diffDays = (a, b) => Math.round((parse(b) - parse(a)) / 864e5);
 export const range = (a, b) => { const o = []; for (let d = a; d <= b; d = addDays(d, 1)) o.push(d); return o; };
 export const lastNDays = (n, end = today()) => range(addDays(end, -(n - 1)), end);
